@@ -1,0 +1,10 @@
+{
+  "name": "pananchita-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "firebase-functions": "^0.8.0",
+    "firebase-tools": "^3.16.0"
+  }
+}
