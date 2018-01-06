@@ -1,8 +1,20 @@
-const functions = require('firebase-functions');
+const functions = require('firebase-functions')
+const { replyMessage, configure } = require('./line')
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+configure(functions.config().line.accesstoken, functions.config().line.secret)
+
+exports.lineWebhook = functions.https.onRequest((request, response) => {
+  const { events } = request.body
+
+  Promise.all(events.map(eventHandler)).then(() => {
+    response.send(':)')
+  })
+})
+
+const eventHandler = event => {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    return null
+  }
+
+  return replyMessage(event.replyToken, 'Hello from the other side')
+}
